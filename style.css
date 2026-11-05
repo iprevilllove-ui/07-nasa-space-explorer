@@ -9,12 +9,13 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f1f1f1;
-  padding: 20px;
+  color: #212121;
+  padding: clamp(12px, 3vw, 32px);
 }
 
 /* Centered container */
 .container {
-  max-width: 1200px;
+  width: min(100%, 1200px);
   margin: 0 auto;
 }
 
@@ -23,21 +24,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: clamp(10px, 2vw, 20px);
+  padding: clamp(16px, 4vw, 28px);
+  margin-bottom: clamp(16px, 3vw, 24px);
+  border-radius: 8px;
+  background-color: #061f4a;
+  text-align: center;
 }
 
 h1 {
   font-family: Verdana, sans-serif;
   font-weight: bold;
-  color: #212121;
+  color: #ffffff;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
 }
 
 /* Logo */
 .logo {
-  width: 140px;
-  margin-right: 15px;
+  width: clamp(90px, 18vw, 140px);
+  max-width: 100%;
 }
 
 /* Date‐picker & button row */
@@ -45,9 +51,9 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
-  padding: 0 20px;
+  margin: 0 auto clamp(16px, 3vw, 24px);
+  padding: 0;
+  max-width: 900px;
 }
 
 /* Inputs and buttons */
@@ -55,73 +61,160 @@ input[type="date"],
 button {
   font-family: Arial, sans-serif;
   font-weight: normal;
-  color: #666;
+  color: #212121;
   padding: 10px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid #aeb0b5;
   border-radius: 4px;
   font-size: 16px;
   line-height: 1.4;
+  min-width: 0;
   width: 100%;
+  background-color: #ffffff;
 }
 
 /* Button specific */
 button {
-  background-color: #d3d3d3;
-  color: black;
+  border-color: #105bd8;
+  background-color: #105bd8;
+  color: #ffffff;
   cursor: pointer;
 }
 button:hover {
-  background-color: #bfbfbf;
+  border-color: #0b3d91;
+  background-color: #0b3d91;
 }
 
-/* Stack horizontally on wider screens */
+input[type="date"]:focus-visible,
+button:focus-visible {
+  outline: 3px solid #105bd8;
+  outline-offset: 2px;
+}
+
+/* Keep the date controls usable on narrow screens and align them on wider screens. */
 @media (min-width: 600px) {
   .filters {
-    flex-direction: row;
-    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
   }
   
   input[type="date"],
   button {
-    width: auto;
+    width: 100%;
   }
 }
 
-/* Gallery flex container */
+/* Random space fact shown above the gallery */
+.space-fact {
+  margin: 0 clamp(0px, 2vw, 20px);
+  padding: 18px 20px;
+  border-left: 5px solid #02bfe7;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(6, 31, 74, 0.1);
+}
+
+.space-fact h2 {
+  margin-bottom: 8px;
+  color: #0b3d91;
+  font-family: Verdana, sans-serif;
+  font-size: 1.15rem;
+}
+
+.space-fact p {
+  color: #323a45;
+  line-height: 1.5;
+}
+
+/* Gallery grid */
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(12px, 2vw, 20px);
+  padding: clamp(12px, 2vw, 20px);
 }
 
 /* Gallery items */
 .gallery-item {
-  flex: 1 1 100%;  /* full width by default */
-  min-width: 280px;
-  max-width: 500px;
-  background: white;
+  min-width: 0;
+  width: 100%;
+  background: #ffffff;
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(6, 31, 74, 0.14);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
-/* Three columns on wider screens */
-@media (min-width: 1000px) {
-  .gallery-item {
-    flex: 0 1 31%;
+.gallery-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(6, 31, 74, 0.2);
+}
+
+.gallery-item h2 {
+  margin: 12px 5px 0;
+  min-height: 2.8em;
+  color: #0b3d91;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* Add columns as the available space allows. */
+@media (min-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.gallery-item img {
+@media (min-width: 1000px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.gallery-image-frame {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
   border-radius: 4px;
+  background: #061f4a;
+}
+
+.gallery-image-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+.gallery-item:hover .gallery-image-frame img,
+.gallery-item:focus-visible .gallery-image-frame img {
+  transform: scale(1.05);
+}
+
+.gallery-item > p:not(.video-notice) {
+  min-height: 1.5em;
+  margin-top: 0;
+  padding: 0 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item,
+  .gallery-image-frame img {
+    transition: none;
+  }
+
+  .gallery-item:hover,
+  .gallery-item:hover .gallery-image-frame img,
+  .gallery-item:focus-visible .gallery-image-frame img {
+    transform: none;
+  }
 }
 
 .gallery-item p {
@@ -130,15 +223,151 @@ button:hover {
   font-size: 14px;
 }
 
+.video-notice {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  background: #061f4a;
+  color: #ffffff;
+  font-size: 1.25rem !important;
+}
+
+.gallery-image-frame .video-notice {
+  margin: 0;
+  padding: 0;
+}
+
+.video-link {
+  margin: 8px 5px;
+  color: #0b3d91;
+  font-weight: bold;
+}
+
+.video-link:hover {
+  color: #105bd8;
+}
+
+.gallery-item .video-details {
+  width: fit-content;
+  margin: 4px 5px;
+  padding: 8px 12px;
+}
+
 /* Placeholder content */
 .placeholder {
-  flex: 1 1 100%;
+  grid-column: 1 / -1;
   text-align: center;
-  padding: 40px;
-  color: #666;
+  padding: clamp(24px, 6vw, 48px);
+  color: #323a45;
+  line-height: 1.5;
 }
 
 .placeholder-icon {
   font-size: 48px;
   margin-bottom: 20px;
+}
+
+/* Photo details modal */
+.gallery-item[role="button"] {
+  cursor: pointer;
+}
+
+.gallery-item:focus-visible {
+  outline: 3px solid #185adb;
+  outline-offset: 3px;
+}
+
+.photo-modal {
+  position: fixed;
+  inset: 0;
+  width: min(900px, calc(100% - 24px));
+  max-width: none;
+  max-height: min(90vh, 900px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #212121;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  overflow: auto;
+}
+
+.photo-modal::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.close-modal {
+  position: sticky;
+  z-index: 1;
+  top: 10px;
+  float: right;
+  width: 42px;
+  height: 42px;
+  margin: 10px 10px -52px 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  background: #000;
+}
+
+.modal-image {
+  display: block;
+  width: 100%;
+  max-height: 60vh;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  background: #111;
+}
+
+.modal-content {
+  padding: clamp(16px, 4vw, 24px);
+}
+
+.modal-content h2 {
+  margin-bottom: 8px;
+  font-family: Verdana, sans-serif;
+  color: #0b3d91;
+}
+
+.modal-date {
+  margin-bottom: 16px;
+  color: #323a45;
+}
+
+.modal-content p:last-child {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 420px) {
+  .filters {
+    padding: 0 4px;
+  }
+
+  .space-fact {
+    padding: 16px;
+  }
+
+  .gallery-item {
+    padding: 8px;
+  }
+
+  .photo-modal {
+    width: calc(100% - 16px);
+    max-height: 94vh;
+  }
+
+  .modal-image {
+    max-height: 45vh;
+  }
 }

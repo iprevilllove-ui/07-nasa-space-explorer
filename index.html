@@ -16,15 +16,30 @@
     <div class="filters">
       <input type="date" id="startDate" />
       <input type="date" id="endDate" />
-      <button>Get Space Images</button>
+      <button id="getImagesButton">Get Space Images</button>
     </div>
 
-    <div id="gallery" class="gallery">
+    <section class="space-fact" aria-labelledby="spaceFactTitle">
+      <h2 id="spaceFactTitle">Did You Know?</h2>
+      <p id="spaceFact"></p>
+    </section>
+
+    <div id="gallery" class="gallery" aria-live="polite" aria-busy="false">
       <div class="placeholder">
         <div class="placeholder-icon">🔭</div>
         <p>Select a date range and click "Get Space Images" to explore the cosmos!</p>
       </div>
     </div>
+
+    <dialog id="photoModal" class="photo-modal" aria-labelledby="modalTitle">
+      <button id="closeModalButton" class="close-modal" type="button" aria-label="Close photo details">&times;</button>
+      <img id="modalImage" class="modal-image" alt="" />
+      <div class="modal-content">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDate" class="modal-date"></p>
+        <p id="modalExplanation"></p>
+      </div>
+    </dialog>
   </div>
 
   <script src="js/dateRange.js"></script>
